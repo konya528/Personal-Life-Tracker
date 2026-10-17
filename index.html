@@ -119,6 +119,20 @@ header .tabs{margin-top:12px}
   background:#fff!important;
   box-shadow:-16px 0 0 #fff,5px 0 0 #fff!important;
 }
+/* v1.13: blue current-day header; keep weekend pills inside their grid tracks. */
+#calendarScroll .matrix>.dayhead{
+  width:20px;
+  min-width:0;
+  height:22px;
+  box-sizing:border-box;
+  border-radius:5px;
+  overflow:hidden;
+  background-clip:padding-box;
+}
+#calendarScroll .matrix>.dayhead.today{
+  background:#e7f2ff!important;
+  color:#2775b6!important;
+}
 </style></head><body><header><small>PERSONAL LIFE TRACKER</small><nav class="tabs"><button data-tab="today" class="active">今日</button><button data-tab="month">カレンダー</button><button data-tab="items">項目管理</button><button data-tab="settings">設定</button></nav></header><main id="app"></main><div id="toast"></div><script>
 'use strict';const KEY='habit-log-v1';const colors=['#edbe86','#80c3e6','#a5d59c','#e8a7d0','#bbc0c8','#afa5df'];const uid=()=>crypto.randomUUID?.()||'id'+Date.now()+Math.random();const localDate=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;const today=()=>localDate(new Date());const shiftDate=(s,offset)=>{const d=new Date(s+'T12:00:00');d.setDate(d.getDate()+offset);return localDate(d)};const seed=[['朝の歯磨き','habit','check',0],['ストレッチ','habit','check',1],['タンパク質','habit','check',2],['体調','habit','state',3],['自室の掃除','routine','check',4],['浴室の掃除','routine','check',4]].map(([name,category,type,c])=>({id:uid(),name,category,type,color:colors[c],interval:7,states:['悪い','普通','良い'],stateIcons:['😞','😐','😊'],stateColors:['#E5B6B6','#EBD5A6','#A8D6B5'],unit:'',order:c,archived:false}));let data;try{data=JSON.parse(localStorage.getItem(KEY))}catch{}if(!data||!Array.isArray(data.items)||typeof data.records!=='object'||!data.records)data={items:seed,records:{}};if(!Array.isArray(data.groups))data.groups=[{id:'health',name:'体調管理',order:0},{id:'maintenance',name:'メンテナンス',order:1},{id:'exercise',name:'運動',order:2}];
 const defaultGroupByName={'体調':'health','タンパク質':'health','朝の歯磨き':'maintenance','自室の掃除':'maintenance','浴室の掃除':'maintenance','ストレッチ':'exercise'};
