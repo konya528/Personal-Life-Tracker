@@ -1,4 +1,4 @@
-const CACHE = 'habit-log-v123';
+const CACHE = 'habit-log-v124';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon.png', './icon-512.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
